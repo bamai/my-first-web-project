@@ -7,7 +7,7 @@ let clickHandler = function(event){
         ul.removeChild(event.target.parentNode.parentNode);
         if(ul.children.length===0){
             let li = document.createElement('LI');
-            li.appendChild(document.createTextNode("you have nothing left to do"));
+            li.appendChild(document.createTextNode("you have no tasks"));
             ul.appendChild(li);
         }
     }
@@ -36,24 +36,30 @@ let createLi = function(){
     li.appendChild(todoButton);
     li.appendChild(span);
     li.appendChild(rmvButton);
+    li.className = "todoitem";
     return li;
 }
 
 let addHandler = function(){
-    let listarr = document.getElementById("list").children;
-    inputValue = inputValue.endsWith("\n")? inputValue.slice(0,inputValue.length): inputValue;
-    if(listarr[0].firstChild.data=="you have nothing left to do"){
-        document.getElementById("list").removeChild(document.getElementById("list").children[0]);
-    }
-    for(let i=0;i<listarr.length;i++){
-        if(listarr[i].children[1].firstChild.data===inputValue){
-            alert("you already have this task");
-            return;
+    if(!(inputValue=== ""||inputValue== null)){
+        let listarr = document.getElementById("list").children;
+        inputValue = inputValue.endsWith("\n")? inputValue.slice(0,inputValue.length): inputValue;
+        if(listarr[0].firstChild.data=="you have no tasks"){
+            document.getElementById("list").removeChild(document.getElementById("list").children[0]);
         }
+        for(let i=0;i<listarr.length;i++){
+            if(listarr[i].children[1].firstChild.data===inputValue){
+                alert("you already have this task");
+                return;
+            }
+        }
+        document.getElementById("list").appendChild(createLi());
+        inputValue = "";
+        document.getElementById("input").value = "";
     }
-    document.getElementById("list").appendChild(createLi());
-    inputValue = "";
-    document.getElementById("input").value = "";
+    else{
+        alert("no task to add");
+    }
 }
 
 let inputValue;

@@ -1,8 +1,9 @@
 #input{
-    width: calc(100% - 12px);
+    width: calc(90% - 16px);
     padding:4px;
     margin: 0;
     height: 20px;
+    border-radius: 5px;
 }
 #todoList{
     margin-left: 25vw;
@@ -11,20 +12,25 @@
 }
 .done {
     padding: 0;
-    width: 3vw;
+    width: 2vw;
     height: 100%;
     border: none;
 }
 
 .remove{
     padding: 0;
-    width: 3vw;
+    width: 2vw;
     height: 100%;
     border: none;
     float: right;
 }
 span{
-    font-size: 2vw;
+    font-size: 3vh;
+}
+
+.todoitem:hover{
+    background-color: rgb(213, 228, 233);
+    width: 100%;
 }
 
 img{
@@ -40,5 +46,18 @@ ul{
 li{
     height: 3vh;
     margin: 2vh 0;
+}
+
+#add{
+    width: calc(10% -12px);
+    padding: 4px;
+    float: right;
+    margin: 0;
+    height: 30px;
+    border-radius: 5px;
+}
+
+h1{
+    font-family: "Courier New", Courier, monospace;
 }
 
