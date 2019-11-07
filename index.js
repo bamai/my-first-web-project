@@ -64,6 +64,25 @@ let addHandler = function(){
 
 let inputValue;
 
+let menuHandler = function(event){
+    let list = document.getElementById("list").children;
+    if(event.target.id==="all"){
+        for(let i = 0;i<list.length;i++){
+            list[i].style.display = 'block';
+        }
+    }
+    if(event.target.id==="done"){
+        for(let i = 0;i<list.length;i++){
+            list[i].style.display = list[i].firstChild.firstChild.src.endsWith("unticked.png")? 'none' : 'block';
+        }
+    }
+    if(event.target.id==="undone"){
+        for(let i = 0;i<list.length;i++){
+            list[i].style.display = list[i].firstChild.firstChild.src.endsWith("unticked.png")? 'block' : 'none';
+        }
+    }
+}
+
 window.onload = function(){
     let list = document.getElementById("list");
     list.addEventListener('click',clickHandler);
@@ -71,6 +90,8 @@ window.onload = function(){
     input.addEventListener('input',updateInput);
     let addButton = document.getElementById("add");
     addButton.addEventListener('click', addHandler);
+    let menu = document.getElementsByTagName("nav")[0];
+    menu.addEventListener('click',menuHandler);
 
 }
 

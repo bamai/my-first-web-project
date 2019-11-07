@@ -1,8 +1,8 @@
 #input{
     width: calc(90% - 16px);
-    padding:4px;
+    padding: 0;
     margin: 0;
-    height: 20px;
+    height: 5vh;
     border-radius: 5px;
 }
 #todoList{
@@ -46,18 +46,34 @@ ul{
 li{
     height: 3vh;
     margin: 2vh 0;
+    font-family: "Optima", sans-serif;
 }
 
 #add{
-    width: calc(10% -12px);
-    padding: 4px;
+    width: calc(10% - 8px);
+    padding: 0.5vw;
     float: right;
     margin: 0;
-    height: 30px;
+    height: 5vh;
     border-radius: 5px;
+    font-size: 1vw;
+
 }
 
 h1{
-    font-family: "Courier New", Courier, monospace;
+    font-family: "Andale Mono", monospace;
 }
 
+nav{
+    display: flex;
+    margin: 20px;
+    width: 100%;
+}
+
+.menu{
+    padding: 5px;
+    margin: 0;
+    width: calc(33% - 14px);
+    height: 5vh;
+    font-size: 1.5vh;
+}
