@@ -10,7 +10,7 @@
     margin-right: 25vw;
     padding: 0;
 }
-.done {
+.isdone {
     padding: 0;
     width: 2vw;
     height: 100%;
@@ -29,8 +29,22 @@ span{
 }
 
 .todoitem:hover{
-    background-color: rgb(213, 228, 233);
+    background-color: rgb(231, 239, 241);
     width: 100%;
+}
+
+.todoitem, .tickedtodoitem{
+    animation: fade-in 1s 1;
+    transition: opacity 2s linear;
+}
+
+@keyframes fade-in{
+    0% {
+        opacity: 0;
+    }
+    100%{
+        opacity: 1;
+    }
 }
 
 img{
@@ -45,7 +59,10 @@ ul{
 }
 li{
     height: 3vh;
-    margin: 2vh 0;
+    margin-top: 2vh;
+    margin-bottom: 2vh;
+    margin-left: 0;
+    margin-right: 0;
     font-family: "Optima", sans-serif;
 }
 
@@ -53,7 +70,7 @@ li{
     width: calc(10% - 8px);
     padding: 0.5vw;
     float: right;
-    margin: 0;
+    margin: 0px;
     height: 5vh;
     border-radius: 5px;
     font-size: 1vw;
@@ -64,10 +81,11 @@ h1{
     font-family: "Andale Mono", monospace;
 }
 
-nav{
-    display: flex;
+#options{
+    display: inline-flex;
     margin: 20px;
     width: 100%;
+    justify-content: center;
 }
 
 .menu{
@@ -76,4 +94,10 @@ nav{
     width: calc(33% - 14px);
     height: 5vh;
     font-size: 1.5vh;
+    background-color: rgb(235, 235, 235);
 }
+
+#all{
+    background-color: rgb(160, 189, 202);
+}
+

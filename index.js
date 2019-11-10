@@ -1,37 +1,42 @@
+let todos = [];
+
 let clickHandler = function(event){
-    if(event.target.parentNode.className == "done"){
+    if(event.target.parentNode.className === "isdone"){
         event.target.src = event.target.src.endsWith("unticked.png")? "ticked.jpeg" : "unticked.png";
+        event.target.parentNode.parentNode.className = event.target.parentNode.parentNode.className === "todoitem"? "tickedtodoitem" : "todoitem";
     }
-    if(event.target.parentNode.className=="remove"){
-        let ul = event.target.parentNode.parentNode.parentNode;
-        ul.removeChild(event.target.parentNode.parentNode);
-        if(ul.children.length===0){
+    if(event.target.parentNode.className === "remove"){
+        let liToRemove = event.target.parentNode.parentNode;
+        for(let i = 0; i<todos.length; i++){
+            if(liToRemove.children[1].textContent===todos[i]){
+                while(i<todos.length-1){
+                    todos[i] = todos[i+1];
+                    i++;
+                }
+                todos.pop();
+            }
+        }
+        list.removeChild(liToRemove);
+        if(list.children.length===0){
             let li = document.createElement('LI');
-            li.appendChild(document.createTextNode("you have no tasks"));
-            ul.appendChild(li);
+            li.appendChild(document.createTextNode("you have no todos"));
+            list.appendChild(li);
         }
     }
 }
 
-let updateInput = function(event){
-    if(event.target.value.endsWith("\n")){
-        addHandler();
-        return;
-    }
-    inputValue = event.target.value;
-}
 
 let createLi = function(){
     let todoButton = document.createElement('BUTTON');
     todoButton.appendChild(document.createElement('IMG'));
     todoButton.firstChild.src = "unticked.png";
-    todoButton.className = "done";
+    todoButton.className = "isdone";
     let rmvButton = document.createElement('BUTTON');
     rmvButton.appendChild(document.createElement('IMG'));
     rmvButton.firstChild.src = "remove.png";
     rmvButton.className = "remove";
     let span = document.createElement('SPAN');
-    span.appendChild(document.createTextNode(inputValue));
+    span.appendChild(document.createTextNode(input.value));
     let li = document.createElement('LI');
     li.appendChild(todoButton);
     li.appendChild(span);
@@ -41,56 +46,60 @@ let createLi = function(){
 }
 
 let addHandler = function(){
-    if(!(inputValue=== ""||inputValue== null)){
-        let listarr = document.getElementById("list").children;
-        inputValue = inputValue.endsWith("\n")? inputValue.slice(0,inputValue.length): inputValue;
-        if(listarr[0].firstChild.data=="you have no tasks"){
-            document.getElementById("list").removeChild(document.getElementById("list").children[0]);
+    let input = document.getElementById("input");
+    if(!(input.value=== ""||input.value == null)){
+        if(list.children[0].textContent === "you have no todos"){
+            list.removeChild(list.children[0]);
         }
-        for(let i=0;i<listarr.length;i++){
-            if(listarr[i].children[1].firstChild.data===inputValue){
+        for(let i=0;i<todos.length;i++){
+            if(todos[i]===input.value){
                 alert("you already have this task");
                 return;
             }
         }
-        document.getElementById("list").appendChild(createLi());
-        inputValue = "";
-        document.getElementById("input").value = "";
+        todos.push(input.value);
+        list.appendChild(createLi());
+        input.value = "";
     }
     else{
         alert("no task to add");
     }
 }
 
-let inputValue;
-
 let menuHandler = function(event){
-    let list = document.getElementById("list").children;
+    let menu = document.getElementsByClassName("menu");
     if(event.target.id==="all"){
-        for(let i = 0;i<list.length;i++){
-            list[i].style.display = 'block';
+        menu[0].setAttribute("style" ,"background-color: rgb(160, 189, 202)");
+        menu[1].setAttribute("style" ,"background-color: rgb(235, 235, 235)");
+        menu[2].setAttribute("style" ,"background-color: rgb(235, 235, 235)");
+        for(let i = 0;i<list.children.length;i++){
+            list.children[i].style.display = 'block';
         }
     }
     if(event.target.id==="done"){
-        for(let i = 0;i<list.length;i++){
-            list[i].style.display = list[i].firstChild.firstChild.src.endsWith("unticked.png")? 'none' : 'block';
+        menu[0].setAttribute("style" ,"background-color: rgb(235, 235, 235)");
+        menu[1].setAttribute("style" ,"background-color: rgb(160, 189, 202)");
+        menu[2].setAttribute("style" ,"background-color: rgb(235, 235, 235)");
+        for(let i = 0;i<list.children.length;i++){
+            list.children[i].style.display = list.children[i].className === "todoitem"? 'none' : 'block';
         }
     }
     if(event.target.id==="undone"){
-        for(let i = 0;i<list.length;i++){
-            list[i].style.display = list[i].firstChild.firstChild.src.endsWith("unticked.png")? 'block' : 'none';
+        menu[0].setAttribute("style" ,"background-color: rgb(235, 235, 235)");
+        menu[1].setAttribute("style" ,"background-color: rgb(235, 235, 235)");
+        menu[2].setAttribute("style" ,"background-color: rgb(160, 189, 202)");
+        for(let i = 0;i<list.children.length;i++){
+            list.children[i].style.display = list.children[i].className === "todoitem"? 'block' : 'none';
         }
     }
 }
 
 window.onload = function(){
-    let list = document.getElementById("list");
+    var list = document.getElementById("list");
     list.addEventListener('click',clickHandler);
-    let input = document.getElementById("input");
-    input.addEventListener('input',updateInput);
-    let addButton = document.getElementById("add");
+    const addButton = document.getElementById("add");
     addButton.addEventListener('click', addHandler);
-    let menu = document.getElementsByTagName("nav")[0];
+    var menu = document.getElementById("options");
     menu.addEventListener('click',menuHandler);
 
 }

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>ToDoList</title>
+        <title>Todo List</title>
         <meta charset = "utf-8">
         <link href = "index.css" rel = "stylesheet">
         <script src = "index.js"></script>
@@ -14,9 +14,13 @@
                 <input type = "text" id = "input" placeholder = "what do you have to do?">
                 <button id = "add">add</button>
             </div>
-            <nav><button class = "menu" id = "all">show all</button><button class = "menu" id = "done">done todos</button><button class = "menu" id = "undone">undone todos</button></nav>
+            <div role = "tablist" id = "options">
+                <button role = "tab" class = "menu" id = "all">show all</button>
+                <button role = "tab" class = "menu" id = "done">done todos</button>
+                <button role = "tab" class = "menu" id = "undone">undone todos</button>
+            </div>    
             <ul id = "list">
-               <li>you have no tasks</li>
+               <li>you have no todos</li>
             </ul>
         </div>
     </body>
