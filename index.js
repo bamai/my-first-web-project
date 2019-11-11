@@ -9,7 +9,7 @@ window.onload = function(){
             event.target.src = event.target.src.endsWith("unticked.png")? "ticked.jpeg" : "unticked.png";
             button.parentNode.className = button.parentNode.className === "todoitem"? "tickedtodoitem" : "todoitem";
             if(button.parentNode.className === "todoitem" && menu.children[1].className === "menu focused"){
-                button.parentNode.style.display = 'none';
+                button.parentNode.style.display = 'none'
             }
             if(button.parentNode.className === "tickedtodoitem" && menu.children[2].className === "menu focused"){
                 button.parentNode.style.display = 'none';
@@ -26,12 +26,12 @@ window.onload = function(){
                     todos.pop();
                 }
             }
-            list.removeChild(liToRemove);
-            if(list.children.length===0){
-                let li = document.createElement('LI');
-                li.appendChild(document.createTextNode("you have no todos"));
-                list.appendChild(li);
-            }
+            liToRemove.style.opacity = "0";
+            setTimeout(()=>{list.removeChild(liToRemove);
+                        if(list.children.length===0){
+                        let li = document.createElement('LI');
+                        li.appendChild(document.createTextNode("you have no todos"));
+                        list.appendChild(li);}},500);
         }
     }
     

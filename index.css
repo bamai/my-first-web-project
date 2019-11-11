@@ -87,6 +87,7 @@ h1{
 
 .todoitem, .tickedtodoitem{
     animation: fade-in 1s 1;
+    transition: opacity 0.5s;
 }
 
 
