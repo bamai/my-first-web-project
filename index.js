@@ -7,16 +7,23 @@ window.onload = function(){
         let button = event.target.parentNode;
         if(button.className === "isdone"){
             event.target.src = event.target.src.endsWith("unticked.png")? "ticked.jpeg" : "unticked.png";
-            button.parentNode.className = button.parentNode.className === "todoitem"? "tickedtodoitem" : "todoitem";
-            if(button.parentNode.className === "todoitem" && menu.children[1].className === "menu focused"){
-                button.parentNode.style.opacity = 0;
-                setTimeout(()=>{button.parentNode.style.display = 'none';
-                                button.parentNode.style.opacity = 1;},500);
+            if(button.parentNode.className === "todoitem"){
+                if(list.className === "list undone"){
+                    button.parentNode.style.opacity = "0";
+                    setTimeout(()=>{button.parentNode.className = "tickedtodoitem";
+                                    button.parentNode.style.opacity = "1";},400)
+                }
+                else
+                    button.parentNode.className = "tickedtodoitem";
             }
-            if(button.parentNode.className === "tickedtodoitem" && menu.children[2].className === "menu focused"){
-                button.parentNode.style.opacity = 0;
-                setTimeout(()=>{button.parentNode.style.display = 'none';
-                                button.parentNode.style.opacity = 1;},500);
+            else{
+                if(list.className === "list done"){
+                    button.parentNode.style.opacity = "0";
+                    setTimeout(()=>{button.parentNode.className = "todoitem";
+                                    button.parentNode.style.opacity = "1";},400)
+                }
+                else
+                    button.parentNode.className = "todoitem";
             }
         }
         if(event.target.parentNode.className === "remove"){
@@ -35,7 +42,7 @@ window.onload = function(){
                         if(list.children.length===0){
                         let li = document.createElement('LI');
                         li.appendChild(document.createTextNode("you have no todos"));
-                        list.appendChild(li);}},500);
+                        list.appendChild(li);}},400);
         }
     }
     
@@ -82,31 +89,45 @@ window.onload = function(){
         }
     }
 
+    let changeListMode = function(mode){
+        if(mode === "done"){
+            if(list.className === "list all"){
+                list.className = "allToDone";
+                setTimeout(()=>{list.className = "list done";},400);
+            }
+            else{
+                list.className = "list done";
+            }
+        }
+        else{
+            if(list.className === "list all"){
+                list.className = "allToUndone";
+                setTimeout(()=>{list.className = "list undone";},400);
+            }
+            else{
+                list.className = "list undone";
+            }
+        }
+    }
+
     let menuHandler = function(event){
         if(event.target.id==="all"){
             menu.children[0].className = "menu focused";
             menu.children[1].className = "menu";
             menu.children[2].className = "menu";
-            for(let i=0;i<list.children.length;i++){
-                list.children[i].style.display = 'block';
-            }
+            list.className = "list all";
         }
         if(event.target.id==="done"){
             menu.children[1].className = "menu focused";
             menu.children[0].className = "menu";
             menu.children[2].className = "menu";
-            console.log(menu.children[1].className);
-            for(let i=0;i<list.children.length;i++){
-                list.children[i].style.display = list.children[i].className==="todoitem"?'none':'block';
-            }
+            changeListMode("done");
         }
         if(event.target.id==="undone"){
             menu.children[2].className = "menu focused";
             menu.children[1].className = "menu";
             menu.children[0].className = "menu";
-            for(let i=0;i<list.children.length;i++){
-                list.children[i].style.display = list.children[i].className==="tickedtodoitem"?'none':'block';
-            }
+            changeListMode("undone");
         }
     }
     

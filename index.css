@@ -1,11 +1,12 @@
 .todoList{
     position: absolute;
-    top: 25vh;
-    left: 25vw;
+    top: 0vh;
+    left: 0vw;
     width: 50%;
     height: 50%;
     padding: 0;
 }
+
 
 h1{
     font-family: "Andale Mono", monospace;
@@ -41,7 +42,6 @@ h1{
     margin: 0px;
     height: 100%;
     border-radius: 5px;
-
 }
 
 #options{
@@ -68,16 +68,48 @@ h1{
     background-color: rgb(199, 209, 214);
 }
 
+ul{
+    list-style-type: none;
+}
+li{
+    height: 3vh;
+    margin-top: 2vh;
+    margin-bottom: 2vh;
+    margin-left: 0;
+    margin-right: 0;
+    font-family: "Optima", sans-serif;
+}
+
 .list.all .todoitem, .list.all .tickedtodoitem{
-    display: 'block';
+    display: block;
+}
+
+.allToUndone .tickedtodoitem{
+    opacity: 0;
+}
+
+.allToDone .todoitem{
+    opacity: 0;
 }
 
 .list.done .todoitem{
-    display: 'none';
+    display: none;
+    opacity: 1;
+}
+
+.list.done .tickedtodoitem{
+    display: block;
+    opacity: 1;
 }
 
 .list.undone .tickedtodoitem{
-    display: 'none';
+    display: none;
+    opacity: 1;
+}
+
+.list.undone .todoitem{
+    display: block;
+    opacity: 1;
 }
 
 .todoitem:hover, .tickedtodoitem:hover{
@@ -124,19 +156,6 @@ img{
     max-height: 100%;
     padding:0;
     margin: 0;
-}
-
-ul{
-    list-style-type: none;
-}
-li{
-    height: 3vh;
-    margin-top: 2vh;
-    margin-bottom: 2vh;
-    margin-left: 0;
-    margin-right: 0;
-    font-family: "Optima", sans-serif;
-    font-size: 3vh;
 }
 
 button:focus{
