@@ -1,54 +1,78 @@
+let dataBase = [{"Title": "Good Will Hunting", "Year": "1997", "inDropdown":"no"},
+                {"Title": "The Good, the Bad and the Ugly", "Year": "1966", "inDropdown":"no"},
+                {"Title": "As Good as It Gets", "Year": "1997", "inDropdown":"no"},
+                {"Title": "A Few Good Men", "Year": "1992", "inDropdown":"no"},
+                {"Title": "A Good Day to Die Hard", "Year": "2013", "inDropdown":"no"},
+                {"Title": "Good Bye Lenin!", "Year": "2003", "inDropdown":"no"},
+                {"Title": "Good Morning, Vietnam", "Year": "1987", "inDropdown":"no"},
+                {"Title": "The Good Shepherd", "Year": "2006", "inDropdown":"no"},
+                {"Title": "The Good Dinosaur", "Year": "2015", "inDropdown":"no"},
+                {"Title": "Good Night, and Good Luck.", "Year": "2005", "inDropdown":"no"},
+                {"Title": "A Good Year", "Year": "2006", "inDropdown":"no"},
+                {"Title": "Good Luck Chuck", "Year": "2007", "inDropdown":"no"},
+                {"Title": "Good Time", "Year": "2017", "inDropdown":"no"},
+                {"Title": "In Good Company", "Year": "2004", "inDropdown":"no"},
+                {"Title": "All Good Things", "Year": "2010", "inDropdown":"no"},
+                {"Title": "The Good Girl", "Year": "2002", "inDropdown":"no"},
+                {"Title": "Alexander and the Terrible, Horrible, No Good, Very Bad Day", "Year": "2004", "inDropdown":"no"},
+                {"Title": "Midnight in the Garden of Good and Evil", "Year": "1997", "inDropdown":"no"},
+                {"Title": "The Good Son", "Year": "1993", "inDropdown":"no"},
+                {"Title": "Tow Is Good", "Year": "2012", "inDropdown":"no"},
+                {"Title": "Tjw Is Good", "Year": "2012", "inDropdown":"no"},
+                {"Title": "Ttw Is Good", "Year": "2012", "inDropdown":"no"},
+                {"Title": "Tow Is Good", "Year": "2012", "inDropdown":"no"}]
+
 window.onload = function(){
-    createTodo(document.getElementById('t1'));
-    createTodo(document.getElementById('t2'));
+    createMovieList(document.getElementById('mv1'));
 }
 
-function createTodo(element) {
+function createMovieList(element) {
     const list = element.getElementsByClassName("list")[0];
     const menu = element.getElementsByClassName("options")[0];
     const addButton = element.getElementsByClassName("add")[0];
     const input = element.getElementsByClassName("input")[0];
-    let todos = [];
+    const dropdown = element.getElementsByClassName("dropdown")[0];
+    let movies = [];
 
     let clickHandler = function(event){
         let button = event.target.parentNode;
-        if(button.className === "isdone"){
+        if(button.className === "isviewed"){
             event.target.src = event.target.src.endsWith("unticked.png")? "ticked.jpeg" : "unticked.png";
-            if(button.parentNode.className === "todoitem"){
-                if(list.className === "list undone"){
+            if(button.parentNode.className === "unviewed"){
+                if(list.className === "listUnviewed"){
                     button.parentNode.style.opacity = "0";
-                    setTimeout(()=>{button.parentNode.className = "tickedtodoitem";
+                    setTimeout(()=>{button.parentNode.className = "viewed";
                                     button.parentNode.style.opacity = "1";},400)
                 }
                 else
-                    button.parentNode.className = "tickedtodoitem";
+                    button.parentNode.className = "viewed";
             }
             else{
-                if(list.className === "list done"){
+                if(list.className === "listViewed"){
                     button.parentNode.style.opacity = "0";
-                    setTimeout(()=>{button.parentNode.className = "todoitem";
+                    setTimeout(()=>{button.parentNode.className = "unviewed";
                                     button.parentNode.style.opacity = "1";},400)
                 }
                 else
-                    button.parentNode.className = "todoitem";
+                    button.parentNode.className = "viewed";
             }
         }
         if(event.target.parentNode.className === "remove"){
             let liToRemove = event.target.parentNode.parentNode;
-            for(let i = 0; i<todos.length; i++){
-                if(liToRemove.children[1].textContent===todos[i]){
-                    while(i<todos.length-1){
-                        todos[i] = todos[i+1];
+            for(let i = 0; i<movies.length; i++){
+                if(liToRemove.children[1].textContent===movies[i]){
+                    while(i<movies.length-1){
+                        movies[i] = movies[i+1];
                         i++;
                     }
-                    todos.pop();
+                    movies.pop();
                 }
             }
             liToRemove.style.opacity = "0";
             setTimeout(()=>{list.removeChild(liToRemove);
                         if(list.children.length===0){
                         let li = document.createElement('LI');
-                        li.appendChild(document.createTextNode("you have no todos"));
+                        li.appendChild(document.createTextNode("you have no movies"));
                         list.appendChild(li);}},400);
         }
     }
@@ -57,7 +81,7 @@ function createTodo(element) {
         let todoButton = document.createElement('BUTTON');
         todoButton.appendChild(document.createElement('IMG'));
         todoButton.firstChild.src = "unticked.png";
-        todoButton.className = "isdone";
+        todoButton.className = "isviewed";
         let rmvButton = document.createElement('BUTTON');
         rmvButton.appendChild(document.createElement('IMG'));
         rmvButton.firstChild.src = "remove.png";
@@ -68,50 +92,47 @@ function createTodo(element) {
         li.appendChild(todoButton);
         li.appendChild(span);
         li.appendChild(rmvButton);
-        li.className = "todoitem";
-        if(menu.children[1].className === "menu focused"){
-            li.style.display = 'none';
-        }
+        li.className = "unviewed";
         return li;
     }
 
     let addHandler = function(){
         if(!(input.value=== ""||input.value == null)){
-            if(list.children[0].textContent === "you have no todos"){
+            if(list.children[0].textContent === "you have no movies"){
                 list.removeChild(list.children[0]);
             }
-            for(let i=0;i<todos.length;i++){
-                if(todos[i]===input.value){
-                    alert("you already have this task");
+            for(let i=0;i<movies.length;i++){
+                if(movies[i]===input.value){
+                    alert("you already have this movie");
                     return;
                 }
             }
-            todos.push(input.value);
+            movies.push(input.value);
             list.appendChild(createLi());
             input.value = "";
         }
         else{
-            alert("no task to add");
+            alert("no movie to add");
         }
     }
 
     let changeListMode = function(mode){
-        if(mode === "done"){
-            if(list.className === "list all"){
-                list.className = "allToDone";
-                setTimeout(()=>{list.className = "list done";},400);
+        if(mode === "viewed"){
+            if(list.className === "listAll"){
+                list.className = "allToViewed";
+                setTimeout(()=>{list.className = "listViewed";},400);
             }
             else{
-                list.className = "list done";
+                list.className = "listViewed";
             }
         }
         else{
-            if(list.className === "list all"){
-                list.className = "allToUndone";
-                setTimeout(()=>{list.className = "list undone";},400);
+            if(list.className === "listAll"){
+                list.className = "allToUnviewed";
+                setTimeout(()=>{list.className = "listUnviewed";},400);
             }
             else{
-                list.className = "list undone";
+                list.className = "listUnviewed";
             }
         }
     }
@@ -119,25 +140,70 @@ function createTodo(element) {
     let menuHandler = function(event){
         if(event.target.className.endsWith("all")){
             menu.children[0].className = "menu focused all";
-            menu.children[1].className = "menu done";
-            menu.children[2].className = "menu undone";
-            list.className = "list all";
+            menu.children[1].className = "menu buttonViewed";
+            menu.children[2].className = "menu buttonUnviewed";
+            list.className = "listAll";
         }
-        else if(event.target.className.endsWith("undone")){
-            menu.children[2].className = "menu focused undone";
-            menu.children[1].className = "menu done";
+        else if(event.target.className.endsWith("buttonUnviewed")){
+            menu.children[2].className = "menu focused buttonUnviewed";
+            menu.children[1].className = "menu buttonViewed";
             menu.children[0].className = "menu all";
-            changeListMode("undone");
+            changeListMode("unviewed");
         }
         else{
-            menu.children[1].className = "menu focused done";
+            menu.children[1].className = "menu focused buttonViewed";
             menu.children[0].className = "menu all";
-            menu.children[2].className = "menu undone";
-            changeListMode("done");
+            menu.children[2].className = "menu buttonUnviewed";
+            changeListMode("viewed");
         }
         
     }
+
+    let createDropdwonli = function(movie){
+        let span = document.createElement('SPAN');
+        span.appendChild(document.createTextNode(movie.Title + ', ' + movie.Year));
+        let li = document.createElement('LI');
+        li.appendChild(span);
+        li.className = "dropdownLi";
+        return li;
+    }
+
+    let deleteFromDropdown = function(movie){
+        for(let i=0;i<dropdown.children.length;i++){
+            let title = dropdown.children[i].children[0].textContent;
+            title = title.slice(0,title.indexOf(','));
+            if(title === movie.Title){
+                dropdown.removeChild(dropdown.children[i]);
+            }
+        }
+    }
+    let inputHandler = function(){
+        if(input.value!==""&&input.value!=null){
+            for(let i=0; i<dataBase.length;i++){
+                console.log(input.value);
+                if(dataBase[i].Title.startsWith(input.value)&&dataBase[i].inDropdown==="no"){
+                    dropdown.appendChild(createDropdwonli(dataBase[i]));
+                    dataBase[i].inDropdown = "yes";
+                }
+                if(!(dataBase[i].Title.startsWith(input.value))&&dataBase[i].inDropdown==="yes"){
+                    deleteFromDropdown(dataBase[i]);
+                    dataBase[i].inDropdown = "no";
+                }
+            }
+        }
+        else{
+            while(dropdown.firstChild){
+                dropdown.removeChild(dropdown.firstChild);
+            }
+            for(let i=0; i<dataBase.length;i++){
+                dataBase[i].inDropdown = "no";
+            }
+        }
+    }
+    
+    
     list.addEventListener('click',clickHandler);
     addButton.addEventListener('click', addHandler);
     menu.addEventListener('click',menuHandler);
+    input.addEventListener('input',inputHandler);
 }

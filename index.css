@@ -1,21 +1,8 @@
-.todoList{
+.movieWatchList{
     width: 50%;
     height: 50%;
     padding: 0;
 }
-
-#t1{
-    position: absolute;
-    top:0;
-    left:0;
-}
-
-#t2{
-    position: absolute;
-    bottom:0;
-    right:0;
-}
-
 
 h1{
     font-family: "Andale Mono", monospace;
@@ -25,7 +12,7 @@ h1{
     margin: 0;
 }
 
-.addTodo{
+.addMovie{
     height: 10%;
     width: 100%;
     margin-top: 10px;
@@ -51,6 +38,17 @@ h1{
     margin: 0px;
     height: 100%;
     border-radius: 5px;
+}
+
+.dropdown{
+    width: 90%;
+    border: 1px solid black;
+    max-height: 10%;
+    overflow: scroll;
+}
+
+.dropdownLi span{
+    font-size: 2vh;
 }
 
 .options{
@@ -89,44 +87,44 @@ li{
     font-family: "Optima", sans-serif;
 }
 
-.list.all .todoitem, .list.all .tickedtodoitem{
+.listAll .unviewed, .listAll .viewed{
     display: block;
 }
 
-.allToUndone .tickedtodoitem{
+.allToUnviewed .viewed{
     opacity: 0;
 }
 
-.allToDone .todoitem{
+.allToViewed .unviewed{
     opacity: 0;
 }
 
-.list.done .todoitem{
+.listViewed .unviewed{
     display: none;
     opacity: 1;
 }
 
-.list.done .tickedtodoitem{
+.listViewed .viewed{
     display: block;
     opacity: 1;
 }
 
-.list.undone .tickedtodoitem{
+.listUnviewed .viewed{
     display: none;
     opacity: 1;
 }
 
-.list.undone .todoitem{
+.listUnviewed .unviewed{
     display: block;
     opacity: 1;
 }
 
-.todoitem:hover, .tickedtodoitem:hover{
+.viewed:hover, .unviewed:hover{
     background-color: rgb(231, 239, 241);
     width: 100%;
 }
 
-.todoitem, .tickedtodoitem{
+.viewed, .unviewed{
     animation: fade-in 1s 1;
     transition: opacity 0.5s;
 }
@@ -142,7 +140,7 @@ li{
     }
 }
 
-.isdone {
+.isviewed {
     padding: 0;
     width: 7%;
     height: 100%;

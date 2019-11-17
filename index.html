@@ -7,34 +7,20 @@
         <script src = "index.js"></script>
     </head>
     <body>
-        <div class= "todoList" id = "t1">
-            <h1>My Todo List</h1>
-            <div class = addTodo>
-                <input type = "text" class = "input" placeholder = "what do you have to do?">
+        <div class= "movieWatchList" id = "mv1">
+            <h1>My Movie List</h1>
+            <div class = "addMovie">
+                <input type = "text" class = "input" placeholder = "search a movie">
                 <button class = "add">add</button>
             </div>
+            <ul class = "dropdown"></ul>
             <div role = "tablist" class = "options">
-                <button role = "tab" class = "menu focused all">show all</button>
-                <button role = "tab" class = "menu done">done todos</button>
-                <button role = "tab" class = "menu undone">undone todos</button>
+                <button role = "tab" class = "menu focused all">All</button>
+                <button role = "tab" class = "menu buttonViewed">Veiwed</button>
+                <button role = "tab" class = "menu buttonUnviewed">Unviewed</button>
             </div>    
             <ul role="tabpanel" class = "list all">
-               <li>you have no todos</li>
-            </ul>
-        </div>
-        <div class= "todoList" id = "t2">
-            <h1>My Todo List</h1>
-            <div class = addTodo>
-                <input type = "text" class = "input" placeholder = "what do you have to do?">
-                <button class = "add">add</button>
-            </div>
-            <div role = "tablist" class = "options">
-                <button role = "tab" class = "menu focused all">show all</button>
-                <button role = "tab" class = "menu done">done todos</button>
-                <button role = "tab" class = "menu undone">undone todos</button>
-            </div>    
-            <ul role="tabpanel" class = "list all">
-               <li>you have no todos</li>
+               <li>you have no movies</li>
             </ul>
         </div>
     </body>
