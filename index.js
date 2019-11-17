@@ -1,8 +1,15 @@
 window.onload = function(){
+    createTodo(document.getElementById('t1'));
+    createTodo(document.getElementById('t2'));
+}
+
+function createTodo(element) {
+    const list = element.getElementsByClassName("list")[0];
+    const menu = element.getElementsByClassName("options")[0];
+    const addButton = element.getElementsByClassName("add")[0];
+    const input = element.getElementsByClassName("input")[0];
     let todos = [];
-    const list = document.getElementById("list");
-    const menu = document.getElementById("options");
-    const addButton = document.getElementById("add");
+
     let clickHandler = function(event){
         let button = event.target.parentNode;
         if(button.className === "isdone"){
@@ -69,7 +76,6 @@ window.onload = function(){
     }
 
     let addHandler = function(){
-        let input = document.getElementById("input");
         if(!(input.value=== ""||input.value == null)){
             if(list.children[0].textContent === "you have no todos"){
                 list.removeChild(list.children[0]);
@@ -111,29 +117,27 @@ window.onload = function(){
     }
 
     let menuHandler = function(event){
-        if(event.target.id==="all"){
-            menu.children[0].className = "menu focused";
-            menu.children[1].className = "menu";
-            menu.children[2].className = "menu";
+        if(event.target.className.endsWith("all")){
+            menu.children[0].className = "menu focused all";
+            menu.children[1].className = "menu done";
+            menu.children[2].className = "menu undone";
             list.className = "list all";
         }
-        if(event.target.id==="done"){
-            menu.children[1].className = "menu focused";
-            menu.children[0].className = "menu";
-            menu.children[2].className = "menu";
-            changeListMode("done");
-        }
-        if(event.target.id==="undone"){
-            menu.children[2].className = "menu focused";
-            menu.children[1].className = "menu";
-            menu.children[0].className = "menu";
+        else if(event.target.className.endsWith("undone")){
+            menu.children[2].className = "menu focused undone";
+            menu.children[1].className = "menu done";
+            menu.children[0].className = "menu all";
             changeListMode("undone");
         }
+        else{
+            menu.children[1].className = "menu focused done";
+            menu.children[0].className = "menu all";
+            menu.children[2].className = "menu undone";
+            changeListMode("done");
+        }
+        
     }
-    
-    
     list.addEventListener('click',clickHandler);
     addButton.addEventListener('click', addHandler);
     menu.addEventListener('click',menuHandler);
-
 }

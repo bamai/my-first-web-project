@@ -1,10 +1,19 @@
 .todoList{
-    position: absolute;
-    top: 0vh;
-    left: 0vw;
     width: 50%;
     height: 50%;
     padding: 0;
+}
+
+#t1{
+    position: absolute;
+    top:0;
+    left:0;
+}
+
+#t2{
+    position: absolute;
+    bottom:0;
+    right:0;
 }
 
 
@@ -16,7 +25,7 @@ h1{
     margin: 0;
 }
 
-#addTodo{
+.addTodo{
     height: 10%;
     width: 100%;
     margin-top: 10px;
@@ -25,7 +34,7 @@ h1{
     margin-right: 0;
 }
 
-#input{
+.input{
     width: 88%;
     margin: 0;
     padding-left: 2%;
@@ -36,7 +45,7 @@ h1{
     border-radius: 5px;
 }
 
-#add{
+.add{
     width: 6%;
     float: right;
     margin: 0px;
@@ -44,7 +53,7 @@ h1{
     border-radius: 5px;
 }
 
-#options{
+.options{
     display: inline-flex;
     margin: 10px;
     width: 100%;

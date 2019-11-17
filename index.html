@@ -9,16 +9,31 @@
     <body>
         <div class= "todoList" id = "t1">
             <h1>My Todo List</h1>
-            <div id = addTodo>
-                <input type = "text" id = "input" placeholder = "what do you have to do?">
-                <button id = "add">add</button>
+            <div class = addTodo>
+                <input type = "text" class = "input" placeholder = "what do you have to do?">
+                <button class = "add">add</button>
             </div>
-            <div role = "tablist" id = "options">
-                <button role = "tab" class = "menu focused" id = "all">show all</button>
-                <button role = "tab" class = "menu" id = "done">done todos</button>
-                <button role = "tab" class = "menu" id = "undone">undone todos</button>
+            <div role = "tablist" class = "options">
+                <button role = "tab" class = "menu focused all">show all</button>
+                <button role = "tab" class = "menu done">done todos</button>
+                <button role = "tab" class = "menu undone">undone todos</button>
             </div>    
-            <ul id = "list" role="tabpanel" class = "list all">
+            <ul role="tabpanel" class = "list all">
+               <li>you have no todos</li>
+            </ul>
+        </div>
+        <div class= "todoList" id = "t2">
+            <h1>My Todo List</h1>
+            <div class = addTodo>
+                <input type = "text" class = "input" placeholder = "what do you have to do?">
+                <button class = "add">add</button>
+            </div>
+            <div role = "tablist" class = "options">
+                <button role = "tab" class = "menu focused all">show all</button>
+                <button role = "tab" class = "menu done">done todos</button>
+                <button role = "tab" class = "menu undone">undone todos</button>
+            </div>    
+            <ul role="tabpanel" class = "list all">
                <li>you have no todos</li>
             </ul>
         </div>
