@@ -22,7 +22,7 @@ h1{
     height: 10%;
     max-height:10vh;
     width: 100%;
-    margin: 10px 0;
+    margin: 10px 0 2px 0;
 }
 
 .input{
@@ -42,20 +42,29 @@ h1{
 }
 
 .dropdown{
-    width: 90%;
-    max-height: 40%;
+    width: 45%;
+    max-height: 15%;
     overflow: scroll;
     display: none;
     padding: 0;
     margin: 0;
+    border: 1px solid rgb(172, 170, 170);
+    border-radius: 5px;
+    z-index: 1;
+    position: absolute;
+    background-color: whitesmoke;
 }
 
 .dropdownLi span{
     font-size: 2vh;
 }
+.dropdownLi{
+    border-bottom: solid rgb(172, 170, 170);
+}
 
 .dropdownLi:hover{
     background-color: rgb(231, 239, 241);
+    cursor: pointer;
 }
 
 .options{
@@ -87,8 +96,7 @@ ul{
 }
 li{
     height: 3vh;
-    margin: 2vh 0;
-    padding: 0.5vh;
+    padding: 1vh;
     font-family: "Optima", sans-serif;
 }
 
@@ -126,7 +134,6 @@ li{
 
 .viewed:hover, .unviewed:hover{
     background-color: rgb(231, 239, 241);
-    width: 100%;
 }
 
 .viewed, .unviewed{
@@ -171,10 +178,11 @@ img{
     margin: 0;
 }
 
-button, .dropdownLi span{
+button{
     cursor: pointer;
+    background-color: transparent;
 }
 
-button:focus{
-    outline: none;
+button:focus, .input:focus{
+    outline: none !important;
 }

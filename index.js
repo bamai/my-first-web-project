@@ -51,6 +51,9 @@ function createMovieList(element) {
     }
 
     let addMovie = function(movie){
+        if(list.children[0].textContent === "you have no movies"){
+            list.removeChild(list.children[0]);
+        }
         for(let i=0;i<movies.length;i++){
             if(movies[i].toLowerCase()===movie.toLowerCase()){
                 alert("you already have this movie");
@@ -64,9 +67,6 @@ function createMovieList(element) {
 
     let addHandler = function(){
         if(!(input.value=== ""||input.value == null)){
-            if(list.children[0].textContent === "you have no movies"){
-                list.removeChild(list.children[0]);
-            }
             if(addMovie(input.value)){
                 input.value = "";
             }
@@ -78,29 +78,29 @@ function createMovieList(element) {
 
     
     let clickHandler = function(event){
-        let button = event.target.parentNode;
-        if(button.className === "isviewed"){
+        let element = event.target.parentNode;
+        if(element.className === "isviewed"){
             event.target.src = event.target.src.endsWith("unticked.png")? "ticked.jpeg" : "unticked.png";
-            if(button.parentNode.className === "unviewed"){
+            if(element.parentNode.className === "unviewed"){
                 if(list.className === "listUnviewed"){
-                    button.parentNode.style.opacity = "0";
-                    setTimeout(()=>{button.parentNode.classList.replace("unviewed","viewed");
-                                    button.parentNode.style.opacity = "1";},400);
+                    element.parentNode.style.opacity = "0";
+                    setTimeout(()=>{element.parentNode.classList.replace("unviewed","viewed");
+                                    element.parentNode.style.opacity = "1";},400);
                 }
                 else
-                    button.parentNode.classList.replace( "unviewed", "viewed" );
+                    element.parentNode.classList.replace( "unviewed", "viewed" );
             }
             else{
                 if(list.className === "listViewed"){
-                    setTimeout(()=>{button.parentNode.classList.replace("viewed","unviewed");
-                                    button.parentNode.style.opacity = "1";},400);
+                    setTimeout(()=>{element.parentNode.classList.replace("viewed","unviewed");
+                                    element.parentNode.style.opacity = "1";},400);
                 }
                 else
-                    button.parentNode.classList.replace( "viewed", "unviewed" );
+                    element.parentNode.classList.replace( "viewed", "unviewed" );
             }
         }
-        if(event.target.parentNode.className === "remove"){
-            let liToRemove = event.target.parentNode.parentNode;
+        if(element.className === "remove"){
+            let liToRemove = element.parentNode;
             for(let i = 0; i<movies.length; i++){
                 if(liToRemove.children[1].textContent===movies[i]){
                     while(i<movies.length-1){
@@ -117,7 +117,7 @@ function createMovieList(element) {
                         li.appendChild(document.createTextNode("you have no movies"));
                         list.appendChild(li);}},400);
         }
-        if(button.className === "dropdownLi"){
+        if(element.className === "dropdownLi"||element.className === "dropdown"){
             addMovie(event.target.textContent);
         }
     }
@@ -194,6 +194,9 @@ function createMovieList(element) {
             }
             if(dropdown.children.length===0){
                 dropdown.style.display = "none";
+            }
+            else{
+                dropdown.lastChild.style.border = "none";
             }
         }
         else{
