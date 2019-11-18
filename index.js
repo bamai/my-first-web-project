@@ -24,8 +24,7 @@ window.onload = function(){
 }
 
 function createMovieList(element) {
-    const list = element.getElementsByClassName("list")[0];
-    console.log(list.classList);
+    const list = element.getElementsByClassName("listAll")[0];
     const menu = element.getElementsByClassName("options")[0];
     const addButton = element.getElementsByClassName("add")[0];
     const input = element.getElementsByClassName("input")[0];
@@ -36,18 +35,18 @@ function createMovieList(element) {
         let todoButton = document.createElement('BUTTON');
         todoButton.appendChild(document.createElement('IMG'));
         todoButton.firstChild.src = "unticked.png";
-        todoButton.className = "isviewed";
+        todoButton.classList.add("isviewed");
         let rmvButton = document.createElement('BUTTON');
         rmvButton.appendChild(document.createElement('IMG'));
         rmvButton.firstChild.src = "remove.png";
-        rmvButton.className = "remove";
+        rmvButton.classList.add("remove");
         let span = document.createElement('SPAN');
         span.appendChild(document.createTextNode(movie));
         let li = document.createElement('LI');
         li.appendChild(todoButton);
         li.appendChild(span);
         li.appendChild(rmvButton);
-        li.className = "unviewed";
+        li.classList.add("unviewed");
         return li;
     }
 
@@ -77,11 +76,6 @@ function createMovieList(element) {
         }
     }
 
-    let setLiStatus = function(li,finalClass){
-        li.style.opacity = "0";
-        setTimeout(()=>{li.className = finalClass;
-                        li.style.opacity = "1";},400);
-    }
     
     let clickHandler = function(event){
         let button = event.target.parentNode;
@@ -89,17 +83,20 @@ function createMovieList(element) {
             event.target.src = event.target.src.endsWith("unticked.png")? "ticked.jpeg" : "unticked.png";
             if(button.parentNode.className === "unviewed"){
                 if(list.className === "listUnviewed"){
-                    setLiStatus(button.parentNode,"viewed");
+                    button.parentNode.style.opacity = "0";
+                    setTimeout(()=>{button.parentNode.classList.replace("unviewed","viewed");
+                                    button.parentNode.style.opacity = "1";},400);
                 }
                 else
-                    button.parentNode.className = "viewed";
+                    button.parentNode.classList.replace( "unviewed", "viewed" );
             }
             else{
                 if(list.className === "listViewed"){
-                    setLiStatus(button.parentNode,"unviewed")
+                    setTimeout(()=>{button.parentNode.classList.replace("viewed","unviewed");
+                                    button.parentNode.style.opacity = "1";},400);
                 }
                 else
-                    button.parentNode.className = "viewed";
+                    button.parentNode.classList.replace( "viewed", "unviewed" );
             }
         }
         if(event.target.parentNode.className === "remove"){
@@ -126,25 +123,9 @@ function createMovieList(element) {
     }
 
 
-    let changeListMode = function(mode){
-        if(mode === "viewed"){
-            if(list.className === "listAll"){
-                list.className = "allToViewed";
-                setTimeout(()=>{list.className = "listViewed";},400);
-            }
-            else{
-                list.className = "listViewed";
-            }
-        }
-        else{
-            if(list.className === "listAll"){
-                list.className = "allToUnviewed";
-                setTimeout(()=>{list.className = "listUnviewed";},400);
-            }
-            else{
-                list.className = "listUnviewed";
-            }
-        }
+    let changeListMode = function(initialMode,midMode,finalMode){
+        list.classList.replace( initialMode, midMode );
+        setTimeout(()=>{list.classList.replace(midMode, finalMode );},400);
     }
 
     let menuHandler = function(event){
@@ -158,13 +139,23 @@ function createMovieList(element) {
             menu.children[2].className = "menu focused buttonUnviewed";
             menu.children[1].className = "menu buttonViewed";
             menu.children[0].className = "menu all";
-            changeListMode("unviewed");
+            if(list.className === "listAll"){
+                changeListMode("listAll","allToUnviewed", "listUnviewed");
+            }
+            else{
+                list.classList.replace( "listViewed", "listUnviewed" );
+            }
         }
         else{
             menu.children[1].className = "menu focused buttonViewed";
             menu.children[0].className = "menu all";
             menu.children[2].className = "menu buttonUnviewed";
-            changeListMode("viewed");
+            if(list.className === "listAll"){
+                changeListMode("listAll","allToViewed", "listViewed");
+            }
+            else{
+                list.classList.replace( "listUnviewed", "listViewed" );
+            }
         }
         
     }
