@@ -31,6 +31,7 @@ h1{
     padding: 0 2%;
     height: 100%;
     border-radius: 5px;
+    font-size: 12px;
 }
 
 .add{
@@ -50,16 +51,17 @@ h1{
     margin: 0;
     border: 1px solid rgb(172, 170, 170);
     border-radius: 5px;
-    z-index: 1;
+    z-index: 2;
     position: absolute;
     background-color: whitesmoke;
 }
 
 .dropdownLi span{
-    font-size: 2vh;
+    font-size: 16px;
 }
 .dropdownLi{
     border-bottom: solid rgb(172, 170, 170);
+    font-size: 16px;
 }
 
 .dropdownLi:hover{
@@ -98,6 +100,7 @@ li{
     height: 3vh;
     padding: 1vh;
     font-family: "Optima", sans-serif;
+    overflow: scroll;
 }
 
 .listAll .unviewed, .listAll .viewed{
@@ -141,6 +144,15 @@ li{
     transition: opacity 0.5s;
 }
 
+.all{
+    border-bottom-left-radius: 5px;
+    border-top-left-radius: 5px;
+}
+
+.buttonUnviewed{
+    border-bottom-right-radius: 5px;
+    border-top-right-radius: 5px;
+}
 
 
 @keyframes fade-in{
@@ -168,7 +180,7 @@ li{
     float: right;
 }
 span{
-    font-size: 3vh;
+    font-size: 18px;
 }
 
 img{
@@ -181,6 +193,7 @@ img{
 button{
     cursor: pointer;
     background-color: transparent;
+    font-size: 12px;
 }
 
 button:focus, .input:focus{

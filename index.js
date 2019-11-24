@@ -55,7 +55,7 @@ function createMovieList(element) {
             list.removeChild(list.children[0]);
         }
         for(let i=0;i<movies.length;i++){
-            if(movies[i].toLowerCase()===movie.toLowerCase()){
+            if(movies[i].slice(0,movies[i].lastIndexOf(",")).toLowerCase()===movie.toLowerCase()){
                 alert("you already have this movie");
                 return false;
             }
@@ -79,46 +79,49 @@ function createMovieList(element) {
     
     let clickHandler = function(event){
         let element = event.target.parentNode;
-        if(element.className === "isviewed"){
-            event.target.src = event.target.src.endsWith("unticked.png")? "ticked.jpeg" : "unticked.png";
-            if(element.parentNode.className === "unviewed"){
-                if(list.className === "listUnviewed"){
-                    element.parentNode.style.opacity = "0";
-                    setTimeout(()=>{element.parentNode.classList.replace("unviewed","viewed");
-                                    element.parentNode.style.opacity = "1";},400);
-                }
-                else
-                    element.parentNode.classList.replace( "unviewed", "viewed" );
-            }
-            else{
-                if(list.className === "listViewed"){
-                    setTimeout(()=>{element.parentNode.classList.replace("viewed","unviewed");
-                                    element.parentNode.style.opacity = "1";},400);
-                }
-                else
-                    element.parentNode.classList.replace( "viewed", "unviewed" );
-            }
-        }
-        if(element.className === "remove"){
-            let liToRemove = element.parentNode;
-            for(let i = 0; i<movies.length; i++){
-                if(liToRemove.children[1].textContent===movies[i]){
-                    while(i<movies.length-1){
-                        movies[i] = movies[i+1];
-                        i++;
-                    }
-                    movies.pop();
-                }
-            }
-            liToRemove.style.opacity = "0";
-            setTimeout(()=>{list.removeChild(liToRemove);
-                        if(list.children.length===0){
-                        let li = document.createElement('LI');
-                        li.appendChild(document.createTextNode("you have no movies"));
-                        list.appendChild(li);}},400);
-        }
         if(element.className === "dropdownLi"||element.className === "dropdown"){
             addMovie(event.target.textContent);
+        }
+        else{
+            if(element.className === "isviewed"){
+                event.target.src = event.target.src.endsWith("unticked.png")? "ticked.jpeg" : "unticked.png";
+                if(element.parentNode.className === "unviewed"){
+                    if(list.className === "listUnviewed"){
+                        element.parentNode.style.opacity = "0";
+                        setTimeout(()=>{element.parentNode.classList.replace("unviewed","viewed");
+                                        element.parentNode.style.opacity = "1";},400);
+                    }
+                    else
+                        element.parentNode.classList.replace( "unviewed", "viewed" );
+                }
+                else{
+                    if(list.className === "listViewed"){
+                        element.parentNode.style.opacity = "0";
+                        setTimeout(()=>{element.parentNode.classList.replace("viewed","unviewed");
+                                        element.parentNode.style.opacity = "1";},400);
+                    }
+                    else
+                        element.parentNode.classList.replace( "viewed", "unviewed" );
+                }
+            }
+            if(element.className === "remove"){
+                let liToRemove = element.parentNode;
+                for(let i = 0; i<movies.length; i++){
+                    if(liToRemove.children[1].textContent===movies[i]){
+                        while(i<movies.length-1){
+                            movies[i] = movies[i+1];
+                            i++;
+                        }
+                        movies.pop();
+                    }
+                }
+                liToRemove.style.opacity = "0";
+                setTimeout(()=>{list.removeChild(liToRemove);
+                            if(list.children.length===0){
+                            let li = document.createElement('LI');
+                            li.appendChild(document.createTextNode("you have no movies"));
+                            list.appendChild(li);}},400);
+            }
         }
     }
 
@@ -182,9 +185,11 @@ function createMovieList(element) {
         if(input.value!==""&&input.value!=null){
             for(let i=0; i<dataBase.length;i++){
                 let name = dataBase[i].Title.toLowerCase()+", "+dataBase[i].Year;
-                if(name.startsWith(input.value.toLowerCase())&&dataBase[i].inDropdown==="no"){
-                    dropdown.appendChild(createDropdwonli(dataBase[i]));
-                    dataBase[i].inDropdown = "yes";
+                if(name.startsWith(input.value.toLowerCase())){
+                    if(dataBase[i].inDropdown==="no"){
+                        dropdown.appendChild(createDropdwonli(dataBase[i]));
+                        dataBase[i].inDropdown = "yes";
+                    }
                     dropdown.style.display = "block";
                 }
                 if(!(name.startsWith(input.value.toLowerCase()))&&dataBase[i].inDropdown==="yes"){
@@ -209,6 +214,12 @@ function createMovieList(element) {
             }
         }
     }
+
+    let dropdownHandler = function(event){
+        if(event.target!==dropdown||event.target.parentNode!==dropdown||event.target.parentNode.parentNode!==dropdown){
+            dropdown.style.display = "none";
+        }
+    }
     
     
     list.addEventListener('click',clickHandler);
@@ -216,4 +227,5 @@ function createMovieList(element) {
     menu.addEventListener('click',menuHandler);
     input.addEventListener('input',inputHandler);
     dropdown.addEventListener('click',clickHandler);
+    element.addEventListener('click',dropdownHandler);
 }
