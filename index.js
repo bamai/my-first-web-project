@@ -1,24 +1,3 @@
-let dataBase = [{"Title": "Good Will Hunting", "Year": "1997", "inDropdown":"no"},
-                {"Title": "The Good, the Bad and the Ugly", "Year": "1966", "inDropdown":"no"},
-                {"Title": "As Good as It Gets", "Year": "1997", "inDropdown":"no"},
-                {"Title": "A Few Good Men", "Year": "1992", "inDropdown":"no"},
-                {"Title": "A Good Day to Die Hard", "Year": "2013", "inDropdown":"no"},
-                {"Title": "Good Bye Lenin!", "Year": "2003", "inDropdown":"no"},
-                {"Title": "Good Morning, Vietnam", "Year": "1987", "inDropdown":"no"},
-                {"Title": "The Good Shepherd", "Year": "2006", "inDropdown":"no"},
-                {"Title": "The Good Dinosaur", "Year": "2015", "inDropdown":"no"},
-                {"Title": "Good Night, and Good Luck.", "Year": "2005", "inDropdown":"no"},
-                {"Title": "A Good Year", "Year": "2006", "inDropdown":"no"},
-                {"Title": "Good Luck Chuck", "Year": "2007", "inDropdown":"no"},
-                {"Title": "Good Time", "Year": "2017", "inDropdown":"no"},
-                {"Title": "In Good Company", "Year": "2004", "inDropdown":"no"},
-                {"Title": "All Good Things", "Year": "2010", "inDropdown":"no"},
-                {"Title": "The Good Girl", "Year": "2002", "inDropdown":"no"},
-                {"Title": "Alexander and the Terrible, Horrible, No Good, Very Bad Day", "Year": "2004", "inDropdown":"no"},
-                {"Title": "Midnight in the Garden of Good and Evil", "Year": "1997", "inDropdown":"no"},
-                {"Title": "The Good Son", "Year": "1993", "inDropdown":"no"},
-                {"Title": "Now Is Good", "Year": "2012", "inDropdown":"no"}]
-
 window.onload = function(){
     createMovieList(document.getElementById('mv1'));
 }
@@ -30,6 +9,7 @@ function createMovieList(element) {
     const input = element.getElementsByClassName("input")[0];
     const dropdown = element.getElementsByClassName("dropdown")[0];
     let movies = [];
+    let dropdownItems = [];
 
     let createLi = function(movie){
         let todoButton = document.createElement('BUTTON');
@@ -50,12 +30,23 @@ function createMovieList(element) {
         return li;
     }
 
+    let movieCompare = function(movie1,movie2){
+        let year1 = movie1.slice(movie1.length-4,movie1.length);
+        year1 = isNaN(year1)||movie1.length<7||movie1.slice(movie1.length-6,movie1.length-4)!== ", "? null: year1;
+        let year2 = movie2.slice(movie2.length-4,movie2.length);
+        year2 = isNaN(year2)||movie2.length<7||movie2.slice(movie2.length-6,movie2.length-4)!==", "? null: year2;
+        let equalYears = (year1===null||year2===null||year1===year2);
+        title1 = year1===null? movie1: movie1.slice(0,movie1.length-6);
+        title2 = year2===null? movie2: movie2.slice(0,movie2.length-6);
+        return title1.toLowerCase()===title2.toLowerCase()&&equalYears;
+    }
+
     let addMovie = function(movie){
         if(list.children[0].textContent === "you have no movies"){
             list.removeChild(list.children[0]);
         }
         for(let i=0;i<movies.length;i++){
-            if(movies[i].slice(0,movies[i].lastIndexOf(",")).toLowerCase()===movie.toLowerCase()){
+            if(movieCompare(movie,movies[i])){
                 alert("you already have this movie");
                 return false;
             }
@@ -174,48 +165,67 @@ function createMovieList(element) {
 
     let deleteFromDropdown = function(movie){
         for(let i=0;i<dropdown.children.length;i++){
-            let title = dropdown.children[i].children[0].textContent;
-            title = title.slice(0,title.lastIndexOf(','));
-            if(title === movie.Title){
+            let dropdownMovie = dropdown.children[i].children[0].textContent;
+            if(movieCompare(dropdownMovie,movie)){
                 dropdown.removeChild(dropdown.children[i]);
-            }
-        }
-    }
-    let inputHandler = function(){
-        if(input.value!==""&&input.value!=null){
-            for(let i=0; i<dataBase.length;i++){
-                let name = dataBase[i].Title.toLowerCase()+", "+dataBase[i].Year;
-                if(name.startsWith(input.value.toLowerCase())){
-                    if(dataBase[i].inDropdown==="no"){
-                        dropdown.appendChild(createDropdwonli(dataBase[i]));
-                        dataBase[i].inDropdown = "yes";
-                    }
-                    dropdown.style.display = "block";
-                }
-                if(!(name.startsWith(input.value.toLowerCase()))&&dataBase[i].inDropdown==="yes"){
-                    deleteFromDropdown(dataBase[i]);
-                    dataBase[i].inDropdown = "no";
-                }
-            }
-            if(dropdown.children.length===0){
-                dropdown.style.display = "none";
-            }
-            else{
-                dropdown.lastChild.style.border = "none";
-            }
-        }
-        else{
-            dropdown.style.display = "none";
-            while(dropdown.firstChild){
-                dropdown.removeChild(dropdown.firstChild);
-            }
-            for(let i=0; i<dataBase.length;i++){
-                dataBase[i].inDropdown = "no";
+                break;
             }
         }
     }
 
-    let dropdownHandler = function(event){
+    let dropdownHandler = function(database){
+        database = database.Search;
+        if(!database){
+            dropdown.style.display = "none";
+            return;
+        }
+        for(let i=0;i<dropdownItems.length;i++){
+            let exists = false;
+            for(let j=0;j<database.length;j++){
+                if(movieCompare(database[j].Title+", "+database[j].Year, dropdownItems[i])){
+                    exists = true;
+                    break;
+                }
+            }
+            if(!exists){
+                deleteFromDropdown(dropdownItems[i]);
+                dropdownItems.splice(i,1);
+                i--;
+            }
+        }
+        for(let i=0; i<database.length;i++){
+            let movie = database[i].Title.toLowerCase()+", "+database[i].Year;
+            if(!dropdownItems.includes(movie)){
+                dropdown.appendChild(createDropdwonli(database[i]));
+                dropdownItems.push(movie);
+            }
+            dropdown.style.display = "block";
+        }
+        if(dropdownItems.length===0){
+            dropdown.style.display = "none";
+        }
+        else{
+            dropdown.lastChild.style.border = "none";
+        }
+    }
+    
+    let inputHandler = function(){
+        if(input.value!==""&&input.value!=null){
+            fetch('http://www.omdbapi.com/?apikey=56dbe3cf&s='+input.value.replace(" ","+")+'&type=movie&r=json')
+                .then(function(response){
+                    if (response.status !== 200) {
+                        dropdown.style.display = "none";
+                        return;
+                    }
+                    response.json().then((data)=>{dropdownHandler(data);});
+                })
+                .catch(function(){
+                    dropdown.style.display = "none";
+                })
+        }
+    }
+
+    let hideDropdown = function(event){
         if(event.target!==dropdown||event.target.parentNode!==dropdown||event.target.parentNode.parentNode!==dropdown){
             dropdown.style.display = "none";
         }
@@ -227,5 +237,5 @@ function createMovieList(element) {
     menu.addEventListener('click',menuHandler);
     input.addEventListener('input',inputHandler);
     dropdown.addEventListener('click',clickHandler);
-    element.addEventListener('click',dropdownHandler);
+    element.addEventListener('click',hideDropdown);
 }
