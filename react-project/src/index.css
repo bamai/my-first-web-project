@@ -110,22 +110,18 @@ li{
 
 .listViewed .unviewed{
   display: none;
-  opacity: 1;
 }
 
 .listViewed .viewed{
   display: block;
-  opacity: 1;
 }
 
 .listUnviewed .viewed{
   display: none;
-  opacity: 1;
 }
 
 .listUnviewed .unviewed{
   display: block;
-  opacity: 1;
 }
 
 .viewed:hover, .unviewed:hover{
@@ -135,6 +131,12 @@ li{
 .viewed, .unviewed{
   animation: fade-in 1s 1;
   transition: opacity 0.5s;
+  opacity: 1;
+}
+
+.disappears span,.disappears button{
+  transition: opacity 0.5s;
+  opacity: 0;
 }
 
 .all{

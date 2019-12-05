@@ -22,6 +22,8 @@ class MovieWatchList extends Component {
         this.handleAddClick = this.handleAddClick.bind(this);
         this.handleListClick = this.handleListClick.bind(this);
         this.handleGeneralClick = this.handleGeneralClick.bind(this);
+        this.hideLi = this.hideLi.bind(this);
+        this.updateMovies = this.updateMovies.bind(this);
     }
     
     
@@ -122,69 +124,58 @@ class MovieWatchList extends Component {
         })
     }
 
+    hideLi(movieName){
+        this.setState({
+            movies: this.state.movies.map((movie)=>{
+                if(movie.name===movieName){
+                    return {name: movie.name, className: "disappears"};
+                }
+                else{
+                    return {name: movie.name, className: movie.className};
+                }
+            },this)});
+    }
+
+    updateMovies(movieName, finalResult){
+        this.setState({
+            movies: this.state.movies.map((movie)=>{
+                if(movie.name===movieName){
+                    return {name: movie.name, className: finalResult};
+                }
+                else{
+                    return {name: movie.name, className: movie.className};
+                }
+            },this)});
+    }
+
     handleListClick(event){
         let button = event.target.parentNode;
         if(button.className === "isviewed"){
             if(button.parentNode.className === "unviewed"){
                 if(this.state.listName === "listUnviewed"){
-                    button.parentNode.style.opacity = "0";
-                    setTimeout(()=>{this.setState({
-                        movies: this.state.movies.map((movie)=>{
-                            if(movie.name===button.nextSibling.textContent){
-                                return {name: movie.name, className: "viewed"};
-                            }
-                            else{
-                                return {name: movie.name, className: movie.className};
-                            }
-                        },this)
-                    });
-                    button.parentNode.style.opacity = "1";},400);
+                    this.hideLi(button.nextSibling.textContent);
+                    setTimeout(()=>{this.updateMovies(button.nextSibling.textContent,"viewed")},400);
                 }
                 else{
-                    this.setState({
-                        movies: this.state.movies.map((movie)=>{
-                            if(movie.name===button.nextSibling.textContent){
-                                return {name: movie.name, className: "viewed"};
-                            }
-                            else{
-                                return {name: movie.name, className: movie.className};
-                            }})});
+                    this.updateMovies(button.nextSibling.textContent,"viewed");
                 }
             }
             else{
                 if(this.state.listName === "listViewed"){
-                    button.parentNode.style.opacity = "0";
-                    setTimeout(()=>{this.setState({
-                        movies: this.state.movies.map((movie)=>{
-                            if(movie.name===button.nextSibling.textContent){
-                                return {name: movie.name, className: "unviewed"};
-                            }
-                            else{
-                                return {name: movie.name, className: movie.className};
-                            }
-                        },this)
-                    });
-                    button.parentNode.style.opacity = "1";},400);
+                    this.hideLi(button.nextSibling.textContent);
+                    setTimeout(()=>{this.updateMovies(button.nextSibling.textContent,"unviewed")},400);
                 }
                 else{
-                    this.setState({
-                        movies: this.state.movies.map((movie)=>{
-                            if(movie.name===button.nextSibling.textContent){
-                                return {name: movie.name, className: "unviewed"};
-                            }
-                            else{
-                                return {name: movie.name, className: movie.className};
-                            }})});
+                    this.updateMovies(button.nextSibling.textContent,"unviewed");
                 }
             }
         }
         if(button.className === "remove"){
             let movieToRemove = button.previousSibling.textContent;
-            button.parentNode.style.opacity = "0";
+            this.hideLi(button.previousSibling.textContent);
             setTimeout(()=>{this.setState({
                 movies: this.state.movies.filter((movie)=>{
-                    return movie.name!==movieToRemove;},this)});
-                    button.parentNode.style.opacity = "1";},400);
+                    return movie.name!==movieToRemove;},this)});},400);
         }
     }
 
