@@ -3,6 +3,18 @@ import AddMovie from './AddMovie';
 import DisplayOptions from './DisplayOptions';
 import MoviesList from './MoviesList';
 
+
+
+const rootReducer = (state, action)=>{
+
+}
+
+
+
+
+
+
+
 class MovieWatchList extends Component {
     constructor(props){
         super(props);
@@ -91,18 +103,9 @@ class MovieWatchList extends Component {
         }
     }
 
-    movieCompare(movie1,movie2){
-        let year1 = movie1.slice(movie1.length-4,movie1.length);
-        year1 = isNaN(year1)||movie1.length<7||movie1.slice(movie1.length-6,movie1.length-4)!== ", "? null: year1;
-        let year2 = movie2.slice(movie2.length-4,movie2.length);
-        year2 = isNaN(year2)||movie2.length<7||movie2.slice(movie2.length-6,movie2.length-4)!==", "? null: year2;
-        let equalYears = (year1===null||year2===null||year1===year2);
-        let title1 = year1===null? movie1: movie1.slice(0,movie1.length-6);
-        let title2 = year2===null? movie2: movie2.slice(0,movie2.length-6);
-        return title1.toLowerCase()===title2.toLowerCase()&&equalYears;
-    }
+    
 
-    handleAddClick(event){
+    /*handleAddClick(event){
         let movie;
         if(event.target.className==="add"){
             if(this.state.input===undefined||this.state.input===""){
@@ -114,15 +117,10 @@ class MovieWatchList extends Component {
         else{
             movie = event.target.children[0]===undefined? event.target.textContent: event.target.children[0].textContent;
         }
-        for(let i=0;i<this.state.movies.length;i++){
-            if(this.movieCompare(movie,this.state.movies[i].name)){
-                alert("you already have this movie");
-                return;
-            }
-        }
+        
         this.setState({movies: this.state.movies.concat([{"name":movie,"className":"unviewed"}])
         })
-    }
+    }*/
 
     hideLi(movieName){
         this.setState({

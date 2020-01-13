@@ -1,15 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {Provider} from 'react-redux'
+import {createStore} from 'redux'
 import './index.css';
-import MovieWatchList from './MovieWatchList';
+import {MovieWatchList, rootReducer} from './MovieWatchList';
 
-class App extends React.Component{
-    render(){
-        return(
-        <div className = "App">
+const store = createStore(rootReducer)
+
+ReactDOM.render(
+        <Provider store={store}>
             <MovieWatchList />
-        </div>);
-    }
-}
-
-ReactDOM.render(<App />, document.getElementById('root'));
+        </Provider>,
+        document.getElementById('root'));
