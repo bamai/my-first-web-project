@@ -1,0 +1,53 @@
+.isviewed {
+    padding: 0;
+    width: 7%;
+    height: 100%;
+    border: none;
+    background-color: none;
+}
+  
+.remove{
+    padding: 0;
+    width: 7%;
+    height: 100%;
+    border: none;
+    float: right;
+}
+
+.listAll .unviewed, .listAll .viewed{
+    display: block;
+}
+  
+.allToUnviewed .viewed{
+    opacity: 0;
+}
+  
+.allToViewed .unviewed{
+    opacity: 0;
+}
+  
+.listViewed .unviewed{
+    display: none;
+}
+  
+.listViewed .viewed{
+    display: block;
+}
+  
+.listUnviewed .viewed{
+    display: none;
+}
+  
+.listUnviewed .unviewed{
+    display: block;
+}
+  
+.viewed:hover, .unviewed:hover{
+    background-color: rgb(231, 239, 241);
+}
+  
+.viewed, .unviewed{
+    animation: fade-in 1s 1;
+    transition: opacity 0.5s;
+    opacity: 1;
+}
