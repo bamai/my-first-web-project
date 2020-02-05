@@ -12,4 +12,4 @@ class AddMovie extends React.Component{
         );
     }
 }
-export default AddMovie;
+export default AddMovie

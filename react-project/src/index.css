@@ -97,11 +97,6 @@ li{
 }
 
 
-.disappears span,.disappears button{
-  transition: opacity 0.5s;
-  opacity: 0;
-}
-
 .all{
   border-bottom-left-radius: 5px;
   border-top-left-radius: 5px;
@@ -142,3 +137,5 @@ button{
 button:focus, .input:focus{
   outline: none !important;
 }
+
+

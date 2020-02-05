@@ -1,11 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux'
-import {createStore} from 'redux'
 import './index.css';
-import {MovieWatchList, rootReducer} from './MovieWatchList';
+import MovieWatchList from './MovieWatchList';
+import { combineReducers, createStore } from 'redux';
+import {optionsReducer, moviesListReducer, addMovieReducer} from './reducers.js';
 
-const store = createStore(rootReducer)
+const rootReducer = combineReducers({ moviesListReducer, optionsReducer, addMovieReducer})
+
+const store = createStore(rootReducer);
+
+export default store;
 
 ReactDOM.render(
         <Provider store={store}>

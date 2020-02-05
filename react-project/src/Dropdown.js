@@ -3,7 +3,7 @@ import DropdownLi from './DropdownLi';
 
 class Dropdown extends React.Component{
     render(){
-        if(this.props.children.length===0||!this.props.displayDropdown){
+        if(!this.props.children||this.props.children.length===0||!this.props.displayDropdown){
             return null;
         }
         console.log(this.props.children);
