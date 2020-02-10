@@ -5,7 +5,7 @@ class AddMovie extends React.Component{
     render(){
         return(
             <div className = "addMovie">
-                <input type = "text" className = "input" placeholder = "search a movie" onChange = {this.props.onChange}/>
+                <input type = "text" className = "input" placeholder = "search a movie" onChange = {this.props.onChange} value={this.props.inputValue}/>
                 <button className = "add" onClick = {this.props.onClick}>add</button>
                 <Dropdown children={this.props.dropdownChildren} displayDropdown={this.props.displayDropdown} onClick={this.props.onClick}/>
             </div>

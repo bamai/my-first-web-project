@@ -19,37 +19,39 @@ export function deleteMovie(name){
 }
 
 export function toggleLi(name){
-    return {type: actions.TOGGLE_MOVIE, name: name};
+    return {type: actions.TOGGLE_LI, name: name};
 }
 
-export function hideLi(name){
-    return {type: actions.HIDE_LI, name: name};
+export function hideLi(name, className){
+    return {type: actions.HIDE_LI, name: name, className};
 }
 
-export function removeMovie(name){
+export function removeMovie(name, className){
     return function(dispatch){
-        dispatch(hideLi(name));
-        setTimeout(()=>{return dispatch(deleteMovie(name))}, 400);
+        dispatch(hideLi(name, className));
+        setTimeout(()=>{dispatch(deleteMovie(name))}, 400, dispatch);
     }
 }
 
-export function toggleMovie(name, listName){
+export function toggleMovie(name, listName, className){
     return function(dispatch){
-        if(listName==="listViewed"||listName==="listUnViewed"){
-            dispatch(hideLi(name));
-            setTimeout(()=>{return dispatch(toggleLi(name))}, 400);
+        if(listName==="listViewed"||listName==="listUnviewed"){
+            dispatch(hideLi(name, className));
+            setTimeout(()=>{dispatch(toggleLi(name))}, 400);
         }
-        return dispatch(toggleLi(name));
+        else{
+            dispatch(toggleLi(name));
+        }
     }
 }
 
 export function handleListActions(eventTarget, listName){
     return function(dispatch){
-        if(eventTarget.className.endsWith("remove")){
-            dispatch(removeMovie(eventTarget.previousSibling.textContent));
+        if(eventTarget.parentNode.className.endsWith("remove")){
+            return dispatch(removeMovie(eventTarget.parentNode.previousSibling.textContent, eventTarget.parentNode.parentNode.className));
         }
         else{
-            dispatch(toggleMovie(eventTarget.previousSibling.textContent,listName));
+            return dispatch(toggleMovie(eventTarget.parentNode.nextSibling.textContent,listName, eventTarget.parentNode.parentNode.className));
         }
     }
 }
@@ -57,23 +59,16 @@ export function changeOptionFilter(nextFilter){
     return {type: actions.CHANGE_OPTION_FILTER, nextFilter};
 }
 
-export function changeOption(eventTarget, listName){
-    let nextFilter = eventTarget.className.endsWith("all")? "all" : eventTarget.className.endsWith("unviewed")? "unviewed" : "viewed";
+export function changeOption(nextFilter, listName){
     return function(dispatch){
-        if(listName==="all"){
+        if(listName.endsWith("listAll")){
             if(nextFilter==="unviewed"){
                 dispatch(changeOptionFilter("allToUnviewed"));
                 setTimeout(()=>(dispatch(changeOptionFilter("unviewed"))),400);
             }
-            else{
-                dispatch(changeOptionFilter("unviewed"));
-            }
             if(nextFilter==="viewed"){
                 dispatch(changeOptionFilter("allToViewed"));
                 setTimeout(()=>(dispatch(changeOptionFilter("viewed"))),400);
-            }
-            else{
-                dispatch(changeOptionFilter("viewed"));
             }
         }
         else{
@@ -110,7 +105,7 @@ export function handleInputChange(inputValue){
                             dispatch(setDisplayDropdown(false));
                         }
                         else{
-                            setDropdownChildren(data);
+                            dispatch(setDropdownChildren(data));
                             dispatch(setDisplayDropdown(true)); 
                         }
                 });})
@@ -118,19 +113,6 @@ export function handleInputChange(inputValue){
                     dispatch(setDisplayDropdown(false));
                 })
         }
-    }
-}
-
-export function handleMovieAddition(event){
-    return function(dispatch){
-        let movie;
-        if(event.target.className==="add"){
-            movie = this.state.input;
-        }
-        else{
-            movie = event.target.children[0]===undefined? event.target.textContent: event.target.children[0].textContent;
-        }
-        dispatch(addMovie(movie));
     }
 }
 

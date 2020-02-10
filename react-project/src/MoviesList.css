@@ -14,7 +14,7 @@
     float: right;
 }
 
-.disappears span,.disappears button{
+.unviewedDisappears span,.unviewedDisappears button, .viewedDisappears span,.viewedDisappears button{
     transition: opacity 0.5s;
     opacity: 0;
   } 
