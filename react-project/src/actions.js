@@ -45,13 +45,13 @@ export function toggleMovie(name, listName, className){
     }
 }
 
-export function handleListActions(eventTarget, listName){
+export function handleListActions(textContent, listName, movieClassName, actionType){
     return function(dispatch){
-        if(eventTarget.parentNode.className.endsWith("remove")){
-            return dispatch(removeMovie(eventTarget.parentNode.previousSibling.textContent, eventTarget.parentNode.parentNode.className));
+        if(actionType === "remove"){
+            return dispatch(removeMovie(textContent, movieClassName));
         }
-        else if(eventTarget.parentNode.className.endsWith("isviewed")){
-            return dispatch(toggleMovie(eventTarget.parentNode.nextSibling.textContent,listName, eventTarget.parentNode.parentNode.className));
+        else if(actionType === "isviewed"){
+            return dispatch(toggleMovie(textContent,listName, movieClassName));
         }
     }
 }

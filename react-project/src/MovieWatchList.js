@@ -34,12 +34,16 @@ const mapStateToProps = state => {
             dispatch(handleInputChange(inputValue));
         },
         onFilterChange:  (target, listName)=>{
-            console.log(listName);
             let nextFilter = target.className.endsWith("Unviewed")? "unviewed" : target.className.endsWith("Viewed")? "viewed" : "all";
             dispatch(changeOption(nextFilter, listName))
         },
         onListClick: (target, listName)=>{
-            dispatch(handleListActions(target, listName))
+            if(target.parentNode.className==="remove"){
+                dispatch(handleListActions(target.parentNode.previousSibling.textContent, listName, target.parentNode.parentNode.className, "remove"))
+            }
+            else{
+                dispatch(handleListActions(target.parentNode.nextSibling.textContent, listName, target.parentNode.parentNode.className, "isviewed"))
+            }
         },
         onGlobalClick: (target)=>{
             dispatch(closeDropdown(target))
