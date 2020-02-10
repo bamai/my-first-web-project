@@ -14,8 +14,8 @@ export function addMovie(name){
     return {type: actions.ADD_MOVIE, name: name};
 }
 
-export function deleteMovie(name){
-    return {type: actions.DELETE_MOVIE, name: name};
+export function deleteMovie(name, className){
+    return {type: actions.DELETE_MOVIE, name: name, className: className};
 }
 
 export function toggleLi(name){
@@ -29,7 +29,7 @@ export function hideLi(name, className){
 export function removeMovie(name, className){
     return function(dispatch){
         dispatch(hideLi(name, className));
-        setTimeout(()=>{dispatch(deleteMovie(name))}, 400, dispatch);
+        setTimeout(()=>{dispatch(deleteMovie(name, className))}, 400, dispatch);
     }
 }
 
@@ -50,7 +50,7 @@ export function handleListActions(eventTarget, listName){
         if(eventTarget.parentNode.className.endsWith("remove")){
             return dispatch(removeMovie(eventTarget.parentNode.previousSibling.textContent, eventTarget.parentNode.parentNode.className));
         }
-        else{
+        else if(eventTarget.parentNode.className.endsWith("isviewed")){
             return dispatch(toggleMovie(eventTarget.parentNode.nextSibling.textContent,listName, eventTarget.parentNode.parentNode.className));
         }
     }

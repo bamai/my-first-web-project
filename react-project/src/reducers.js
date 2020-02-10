@@ -11,7 +11,28 @@ const movieCompare = (movie1,movie2) => {
     return title1.toLowerCase()===title2.toLowerCase()&&equalYears;
 }
 
-export const moviesListReducer = (state={movies: []}, action)=>{
+let defaultMovies = ()=>{
+    let currentStorage = localStorage.getItem('movies');
+    if(!currentStorage){
+        const localStorage = window.localStorage;
+        localStorage.setItem('movies', "");
+        return [];
+    }
+    console.log(currentStorage);
+    let movies = currentStorage.split('{');
+    movies = movies.map((movie, index)=>{
+        if(index!==0){
+            let comma = movie.lastIndexOf(',');
+            let movieObject={name: movie.slice(0, comma),className: movie.slice(comma+1,movie.length)};
+            console.log(movieObject);
+            return movieObject;
+        }
+    }).filter((movie)=>(movie!==undefined));
+    return movies;
+}
+
+export const moviesListReducer = (state={movies: defaultMovies()}, action)=>{
+    let currentStorage = localStorage.getItem('movies');
     switch(action.type){
         case actions.ADD_MOVIE:
             if(action.name===undefined||action.name===""){
@@ -25,8 +46,10 @@ export const moviesListReducer = (state={movies: []}, action)=>{
                     return state;
                 }
             }
+            localStorage.setItem('movies', currentStorage + `{${action.name},unviewed`);
             return Object.assign({},state,{movies: [...state.movies, {name: action.name, className: "unviewed"}]});
         case actions.DELETE_MOVIE:
+            localStorage.setItem('movies', currentStorage.replace(`{${action.name},${action.className}`,""));
             return Object.assign({},state,{movies: state.movies.filter((movie)=>{
                     return !movieCompare(movie.name, action.name);},this)});
         case actions.HIDE_LI:
@@ -45,6 +68,8 @@ export const moviesListReducer = (state={movies: []}, action)=>{
                     }
                     else{
                         let className = movie.className === "unviewed"|| movie.className ==="unviewedDisappears"? "viewed": "unviewed";
+                        let localStorageClassName = className === "unviewed"? "viewed" : "unviewed";
+                        localStorage.setItem('movies', currentStorage.replace(`{${action.name},${localStorageClassName}`,`{${action.name},${className}`));
                         return Object.assign({},movie,{className: className});
                     };},this)});
         default:

@@ -17,13 +17,14 @@ class MoviesList extends React.Component{
             <div role="tabpanel" className = {this.props.listName}>
                 <ul>
                     {this.props.movies.map((movie,index)=>{
-                        let src = movie.className==="unviewed"? unticked: ticked;
-                    return (<li key={index} className={movie.className} onClick={this.props.onClick}>
-                        <button className = "isviewed">
-                            <img src ={src} alt = "checkbox"/>
-                        </button>
-                        <span>{movie.name}</span>
-                        <button className = "remove"><img src = {remove} alt = "remove"/></button></li>);})}
+                        if(movie){
+                            let src = movie.className==="unviewed"? unticked: ticked;
+                            return (<li key={index} className={movie.className} onClick={this.props.onClick}>
+                                <button className = "isviewed">
+                                    <img src ={src} alt = "checkbox"/>
+                                </button>
+                                <span>{movie.name}</span>
+                                <button className = "remove"><img src = {remove} alt = "remove"/></button></li>);}})}
                 </ul>
             </div>
         );
